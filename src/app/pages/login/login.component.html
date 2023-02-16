@@ -1,0 +1,25 @@
+<div class="container">
+  <form [formGroup]="form">
+    <h1 class="container__title">
+      Sign In
+    </h1>
+    <span>
+      Sign in to your account using email and password provided during registration.
+    </span>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="login"
+             required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password"
+             required>
+    </mat-form-field>
+    <button [disabled]="!form.valid" (click)="submit()" mat-stroked-button color="primary">Sign in</button>
+    <ng-template [ngIf]="form.errors">
+      {{form.errors | json}}
+    </ng-template>
+  </form>
+</div>

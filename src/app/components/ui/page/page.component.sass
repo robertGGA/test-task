@@ -1,0 +1,15 @@
+@import "src/app/styles/mixins"
+
+.page-container
+  display: flex
+  background-color: $c-dark-900
+  color: white
+
+  &__main
+    min-height: 100vh
+    display: grid
+    grid-template-rows: auto 1fr auto
+    grid-template-columns: 100%
+    max-width: 1200px
+    width: 100%
+    margin: 0 auto

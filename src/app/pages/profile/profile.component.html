@@ -1,0 +1,26 @@
+<rg-page>
+  <div class="content_container">
+    <rg-nav>
+      ff
+    </rg-nav>
+    <div *ngIf="vars.length" class="table-container">
+      <table mat-table [dataSource]="data">
+        <ng-container *ngFor="let column of vars">
+          <ng-container matColumnDef="{{column}}">
+            <th mat-header-cell *matHeaderCellDef>{{column | titlecase}}</th>
+            <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+          </ng-container>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="vars"></tr>
+        <tr mat-row *matRowDef="let row; columns: vars;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                     [length]="length"
+                     [pageSize]="pageSize"
+                     [pageIndex]="pageIndex"
+                     (page)="handlePageEvent($event)"
+                     aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </div>
+</rg-page>
