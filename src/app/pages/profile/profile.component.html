@@ -1,7 +1,10 @@
 <rg-page>
   <div class="content_container">
     <rg-nav>
-      ff
+      <label class="search__title">
+        Search
+        <input class="search" type="search" [formControl]="searchControl"/>
+      </label>
     </rg-nav>
     <div *ngIf="vars.length" class="table-container">
       <table mat-table [dataSource]="data">

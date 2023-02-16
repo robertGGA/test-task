@@ -13,7 +13,7 @@ export class UserService {
   }
 
   getUsers(search: string = '', limit?: number, offset?: number): Observable<TableModel> {
-    const params = ((search !== null || limit || offset) ? '/passes?' : '') + (search ? `search=${search}` : '') + (limit ? `&limit=${limit}` : '') + (offset ? `&offset=${offset}` : '');
+    const params = ((search !== null || limit || offset) ? '/passes?' : '') + (search ? `search=first_name=${search}` : '') + (limit ? `&limit=${limit}` : '') + (offset ? `&offset=${offset}` : '');
     return this.http.get<TableModel>(`v1/${this.authService.authorizeToken}${params}`, {
       headers: {
         'Content-Type': 'application/json',

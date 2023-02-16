@@ -1,9 +1,10 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit} from '@angular/core';
 import {UserService} from "@services/user.service";
 import {DestroyService} from "@services/destroy.service";
-import {takeUntil} from "rxjs";
+import {debounceTime, startWith, switchMap, takeUntil} from "rxjs";
 import {Pass} from "@models/table-model";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'rg-profile',
@@ -18,10 +19,24 @@ export class ProfileComponent implements AfterViewInit {
   length: number = 0;
   pageIndex = 0;
   pageEvent?: PageEvent;
+  searchControl = new FormControl('');
 
   @ViewChild('paginator') paginator?: MatPaginator;
 
   constructor(private userService: UserService, private destroy$: DestroyService, private cdr: ChangeDetectorRef) {
+    this.searchControl.valueChanges.pipe(
+      startWith(''),
+      debounceTime(200),
+      switchMap((row: string) => {
+        let searchRow = row.split(' ');
+        console.log(searchRow);
+        return this.userService.getUsers(row)
+      }),
+      takeUntil(this.destroy$),
+    ).subscribe(value => {
+      this.data = [...value.passes];
+      this.cdr.markForCheck();
+    })
   }
 
   getKeys(array: Array<Pass>) {
@@ -40,7 +55,8 @@ export class ProfileComponent implements AfterViewInit {
   }
 
   handlePageEvent(e: PageEvent) {
-    this.userService.getUsers('', e.pageSize, e.pageIndex * e.pageSize)
+
+    this.userService.getUsers(this.searchControl.value, e.pageSize, e.pageIndex * e.pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe(value => {
         this.data = [...value.passes];
