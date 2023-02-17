@@ -1,0 +1,10 @@
+<rg-modal-header>
+  {{data.userFirstName}} {{data.userSecondName}}
+</rg-modal-header>
+
+<rg-modal-body>
+    <input [formControl]="messageInput" />
+    <button (click)="sendMessage()">
+      Send
+    </button>
+</rg-modal-body>

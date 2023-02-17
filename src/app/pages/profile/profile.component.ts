@@ -5,6 +5,9 @@ import {debounceTime, startWith, switchMap, takeUntil} from "rxjs";
 import {Pass} from "@models/table-model";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {FormControl} from "@angular/forms";
+import {Dialog} from "@angular/cdk-experimental/dialog";
+import {openDialog} from "@utils/openDialog";
+import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component";
 
 @Component({
   selector: 'rg-profile',
@@ -23,7 +26,10 @@ export class ProfileComponent implements AfterViewInit {
 
   @ViewChild('paginator') paginator?: MatPaginator;
 
-  constructor(private userService: UserService, private destroy$: DestroyService, private cdr: ChangeDetectorRef) {
+  constructor(private userService: UserService,
+              private destroy$: DestroyService,
+              private cdr: ChangeDetectorRef,
+              private dialog: Dialog,) {
     this.searchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(200),
@@ -46,6 +52,10 @@ export class ProfileComponent implements AfterViewInit {
     }
   }
 
+  showVal(e: any) {
+    console.log(e);
+  }
+
   ngAfterViewInit(): void {
     this.userService.getUsers().pipe(takeUntil(this.destroy$)).subscribe(value => {
       this.data = [...value.passes];
@@ -65,6 +75,18 @@ export class ProfileComponent implements AfterViewInit {
         this.pageSize = e.pageSize;
         this.pageIndex = e.pageIndex;
       });
+  }
+
+  openMessageModal(row: Pass) {
+    openDialog({
+      component: PushModalComponent, dialog: this.dialog, config: {
+        data: {
+          userId: row.user_id,
+          userFirstName: row.first_name,
+          userSecondName: row.last_name
+        }
+      }
+    });
   }
 
 

@@ -21,4 +21,17 @@ export class UserService {
       }
     })
   }
+
+  sendMessage(userId: number, dateStart: Date, pushMessage: string) {
+    return this.http.post(`v1/${this.authService.authorizeToken}/message/push`, {
+      "user_id": userId,
+      "date_start": dateStart,
+      "push_message": pushMessage
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': this.authService.key!
+      }
+    })
+  }
 }

@@ -17,6 +17,10 @@ import { HeaderComponent } from '@components/ui/header/header.component';
 import { NavComponent } from '@components/ui/nav/nav.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { ModalHeaderComponent } from '@components/modals/modal-header/modal-header.component';
+import {ModalBodyComponent} from "@components/modals/modal-body/modal-body.component";
+import {DialogModule} from "@angular/cdk-experimental/dialog";
+import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component";
 
 
 @NgModule({
@@ -27,6 +31,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     PageComponent,
     HeaderComponent,
     NavComponent,
+    ModalHeaderComponent,
+    ModalBodyComponent,
+    PushModalComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +46,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
+    DialogModule
   ],
   providers: [
     {
