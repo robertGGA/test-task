@@ -24,11 +24,13 @@ export class PushModalComponent {
   constructor(@Optional() @Inject(DIALOG_DATA) public data: PushModalData,
               private userService: UserService,
               private destroy$: DestroyService,
-              private dialog: Dialog,) {
+              private dialog: Dialog) {
   }
 
   sendMessage() {
-    this.userService.sendMessage(this.data.userId, new Date(),
+    let t = new Date();
+    t.setSeconds(t.getSeconds() + 10);
+    this.userService.sendMessage(this.data.userId, t.toISOString(),
       this.messageInput.value).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.dialog.closeAll();
       alert('Message delivered successfully')

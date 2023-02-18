@@ -22,9 +22,9 @@ export class UserService {
     })
   }
 
-  sendMessage(userId: number, dateStart: Date, pushMessage: string) {
+  sendMessage(userId: number, dateStart: string, pushMessage: string) {
     return this.http.post(`v1/${this.authService.authorizeToken}/message/push`, {
-      "user_id": userId,
+      "user_id": userId.toString(),
       "date_start": dateStart,
       "push_message": pushMessage
     }, {

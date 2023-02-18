@@ -2,6 +2,13 @@
 
 ::ng-deep
   .mat
+    &-row
+      cursor: pointer
+      background: inherit
+      transition: 0.7s
+      &:hover
+        background: rgba($c-dark, 0.3)
+
     &-paginator
       background-color: $c-dark-900
       color: white
@@ -55,7 +62,11 @@
   color: #A1A1AA
   border-bottom: 1px solid $c-border
   padding: 15px !important
+  transition: 0.7s
+  cursor: pointer
 
+  &:hover
+    background: rgba($c-dark, 0.3)
 .search
   border: 1px solid $c-border
   background: none

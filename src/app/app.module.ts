@@ -21,6 +21,8 @@ import { ModalHeaderComponent } from '@components/modals/modal-header/modal-head
 import {ModalBodyComponent} from "@components/modals/modal-body/modal-body.component";
 import {DialogModule} from "@angular/cdk-experimental/dialog";
 import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component";
+import {MatSelectModule} from "@angular/material/select";
+import {IconComponent} from "@components/ui/icon/icon.component";
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component
     NavComponent,
     ModalHeaderComponent,
     ModalBodyComponent,
-    PushModalComponent
+    PushModalComponent,
+    IconComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    DialogModule
+    DialogModule,
+    MatSelectModule
   ],
   providers: [
     {

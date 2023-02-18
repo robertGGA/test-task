@@ -1,13 +1,18 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit} from '@angular/core';
 import {UserService} from "@services/user.service";
 import {DestroyService} from "@services/destroy.service";
 import {debounceTime, startWith, switchMap, takeUntil} from "rxjs";
 import {Pass} from "@models/table-model";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {PageEvent} from "@angular/material/paginator";
 import {FormControl} from "@angular/forms";
 import {Dialog} from "@angular/cdk-experimental/dialog";
 import {openDialog} from "@utils/openDialog";
 import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component";
+
+interface ColumnData {
+  name: string,
+  isSorted: boolean
+}
 
 @Component({
   selector: 'rg-profile',
@@ -17,14 +22,12 @@ import {PushModalComponent} from "@pages/profile/push-modal/push-modal.component
 })
 export class ProfileComponent implements AfterViewInit {
   data: Array<Pass> = [];
-  vars: Array<string> = [];
+  vars: Array<ColumnData> = [];
   pageSize: number = 10;
   length: number = 0;
   pageIndex = 0;
   pageEvent?: PageEvent;
   searchControl = new FormControl('');
-
-  @ViewChild('paginator') paginator?: MatPaginator;
 
   constructor(private userService: UserService,
               private destroy$: DestroyService,
@@ -34,8 +37,6 @@ export class ProfileComponent implements AfterViewInit {
       startWith(''),
       debounceTime(200),
       switchMap((row: string) => {
-        let searchRow = row.split(' ');
-        console.log(searchRow);
         return this.userService.getUsers(row)
       }),
       takeUntil(this.destroy$),
@@ -47,14 +48,20 @@ export class ProfileComponent implements AfterViewInit {
 
   getKeys(array: Array<Pass>) {
     if (array.length) {
-      this.vars = [...Object.keys(array[0])];
+      this.vars = Object.keys(array[0]).map(columnName => {
+        return {
+          name: columnName,
+          isSorted: false
+        }
+      })
       this.cdr.markForCheck();
     }
   }
 
-  showVal(e: any) {
-    console.log(e);
+  getColumnsHeader() {
+    return this.vars.map(obj => obj.name);
   }
+
 
   ngAfterViewInit(): void {
     this.userService.getUsers().pipe(takeUntil(this.destroy$)).subscribe(value => {
@@ -89,5 +96,40 @@ export class ProfileComponent implements AfterViewInit {
     });
   }
 
+  sort(e: string) {
+    const lowToHigh = this.updateStateOfHeader(e)!.isSorted;
+    this.data = [...this.data.sort((first, second) => {
+      if (first[e as keyof Pass]! > second[e as keyof Pass]!) {
+        if (lowToHigh) {
+          return 1
+        } else {
+          return -1;
+        }
+      }
+      if (first[e as keyof Pass]! < second[e as keyof Pass]!) {
+        if (lowToHigh) {
+          return -1
+        } else {
+          return 1
+        }
+      }
+      return 0;
+    })];
+    this.cdr.markForCheck();
+  }
+
+
+  private updateStateOfHeader(e: string) {
+    this.vars.forEach(obj => {
+      if (e !== obj.name) {
+        obj.isSorted = false
+      }
+    });
+    const result = this.vars.find(obj => obj.name === e);
+    result!.isSorted = !result!.isSorted;
+    this.vars = [...this.vars];
+
+    return result;
+  }
 
 }
