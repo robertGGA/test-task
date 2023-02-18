@@ -12,7 +12,7 @@
           <ng-container matColumnDef="{{column.name}}">
             <th mat-header-cell (click)="sort(column.name)" *matHeaderCellDef>
               <span>{{(column.name | titlecase)}} </span>
-              <rg-icon *ngIf="column.isSorted; else content" width="24" height="24" name="arrow"></rg-icon>
+              <p *ngIf="column.isSorted; else content">По возр</p>
             </th>
             <td mat-cell *matCellDef="let element">{{element[column.name]}}</td>
           </ng-container>

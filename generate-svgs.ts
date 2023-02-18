@@ -17,7 +17,7 @@ const getFilesFromFolder = folder => {
     : [];
 };
 
-const generateSprite = (outputPath = './public/sprite.svg') => {
+const generateSprite = (outputPath = './src/assets/sprite.svg') => {
   const svgSprites = [...getFilesFromFolder(folder)];
   svgSprites.sort((a, b) => a.name.localeCompare(b.name));
 
