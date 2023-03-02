@@ -30,8 +30,8 @@ export class PushModalComponent {
   sendMessage() {
     let t = new Date();
     t.setSeconds(t.getSeconds() + 10);
-    this.userService.sendMessage(this.data.userId, t.toISOString(),
-      this.messageInput.value).pipe(takeUntil(this.destroy$)).subscribe(() => {
+    this.userService.sendMessage(this.data.userId, t.toISOString(), this.messageInput.value)
+      .pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.dialog.closeAll();
       alert('Message delivered successfully')
     })

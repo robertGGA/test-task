@@ -1,3 +1,29 @@
+@import "src/app/styles/mixins"
+
+
 \:host
-  cdk-dialog-container
-    background: green
+  display: flex
+  flex-direction: column
+  align-items: center
+  background: $c-gray-400
+  padding: 15px
+  min-height: 40vh
+  border-radius: 8px
+
+  p
+    text-align: center
+    max-width: 200px
+    margin: 0
+
+.input
+  width: 100%
+  padding: 8px 6px
+  border-radius: 3px
+
+.button
+  margin-top: 8px
+  background-color: rgba($c-dark-900, 0.5)
+  transition: 0.3s
+
+  &:hover
+    background-color: rgba($c-dark-900, 1)

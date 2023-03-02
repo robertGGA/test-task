@@ -13,8 +13,7 @@ export class IconComponent {
 
 
 	getPath() {
-		const item = this.name;
-		this.name = `src/assets/sprite.svg#${item}`
+    this.name = `assets/sprite.svg#${this.name}`
 		return this.name;
 	}
 

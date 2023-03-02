@@ -4,7 +4,7 @@ const path = require('path');
 
 let sprite = svgstore();
 const type = process.argv[process.argv.length - 1];
-const folder = `./src/assets/svg-icons`; // путь к папке с svg иконками
+const folder = `./src/svg-icons`; // путь к папке с svg иконками
 
 const getFilesFromFolder = folder => {
   return fs.existsSync(folder)

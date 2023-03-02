@@ -1,10 +1,15 @@
 <rg-modal-header>
-  {{data.userFirstName}} {{data.userSecondName}}
+  <p>
+    Send message to
+  </p>
+  <b>
+    {{data.userFirstName}} {{data.userSecondName}}
+  </b>
 </rg-modal-header>
 
 <rg-modal-body>
-    <input [formControl]="messageInput" />
-    <button (click)="sendMessage()">
+    <input class="input" [formControl]="messageInput" />
+    <button class="button" mat-button color="primary" (click)="sendMessage()">
       Send
     </button>
 </rg-modal-body>

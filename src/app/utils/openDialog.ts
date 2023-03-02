@@ -10,9 +10,21 @@ export interface OpenDialogData {
 export const openDialog = <T>({dialog, component, config = {}}: OpenDialogData): DialogRef<T> => {
   let dialogRef;
   if (component) {
-    dialogRef = dialog.openFromComponent(component, config);
+    if (!config?.panelClass) {
+      dialogRef = dialog.openFromComponent(component, {...config, panelClass: 'dialog'});
+    } else {
+      dialogRef = dialog.openFromComponent(component, config);
+    }
+
   } else {
     throw new Error('Add component ref');
   }
+
+  const parentContainer = dialogRef.componentInstance
+
+  // dialogRef.beforeOpened().subscribe(() => parentContainer?.classList.add('on-top'));
+  //
+  // dialogRef.afterClosed().subscribe(() => parentContainer?.classList.remove('on-top'));
+
   return dialogRef;
 }
